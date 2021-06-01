@@ -1,0 +1,65 @@
+# Created by Matthew Au-Yeung for ICS-3UI
+# Each round in a grid of 4x4, a colour of random will be chosen.
+# Player must move to the tile that contains that colour
+# Obstacles will be in the way, and can explode launching character.
+# Countdown from 10 (may change) to move to that tile
+
+
+# main.py
+
+
+# initiate variables
+
+# while loop sets start screen
+
+# while loop runs game
+# before loop set tile grid in array, score, player, obstacles
+# update colours
+# update obstacles
+
+# while loop end game
+
+
+# game.py
+
+
+# class game_object: (Abstract)
+
+# init: super variables of x, y, hitbox, screen, img.
+# use object to draw them all easily and compare hitboxes
+
+# draw_obj(): function draws image onto screen
+
+
+# class tile(game_object):
+# init: colour_str
+# colour_str used to determines colour and for booleans
+
+# update_colour(self, colour_str): updates colour
+
+# the draw function will contain if to adjust colour based on string
+
+
+# class player(game_object):
+
+# init: explode_s_time = 0, velocity_x, velocity_y, slope
+
+# update_coord(self, x, y): this will update the characters values
+
+# check_collision(self, game_object): Will take in object eg. tile/rock to check whether it's hit.
+# check if object is safe from elimination or can't move past it, respectively.
+
+# get_slope(self, obstacle):
+# updates slope
+
+# explode_movement():
+# will set velocity dependent on slope
+
+
+# class obstacle(game_object):
+
+# init: variable center (origin, used to determine angle to send it flying using slope)
+
+# explode(self, player):
+# time.time() =
+
