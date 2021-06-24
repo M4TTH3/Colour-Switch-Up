@@ -1,4 +1,6 @@
 import pygame
+
+
 # Subclassing the Sprite class to build the features
 
 
@@ -22,24 +24,45 @@ class square_tile(pygame.sprite.Sprite):
         pygame.draw.rect(screen, self.colour, self.rect)
 
     # Goes after end_round_delete so colour is either one to stand on or black
-    def check_inside(self, player_object):
+    def check_inside(self, player):
         # Checks whether the player object touches the tile, then it's safe
-        if self.rect.contains(player_object) and not self.colour == (0, 0, 0):
+        if self.rect.contains(player.rect) and not self.colour == (0, 0, 0):
             return True
         else:
             return False
 
+    def has_completely_inside(self, obj):
+        return self.rect.contains(obj.rect)
+
 
 class player_object(pygame.sprite.Sprite):
 
-    def __init__(self):
-        pass
+    # Will draw the image
+    def __init__(self, x, y, w, h, img):
+        super().__init__()
+        self.img = pygame.transform.scale(img, (w, h))
+        self.rect = pygame.Rect((x, y), (w, h))
 
+        # Booleans for movements. Used with borders to ensure it doesn't cross
+        self.is_moving_right = False
+        self.is_moving_left = False
+        self.is_moving_up = False
+        self.is_moving_down = False
 
-# class tile(game_object):
-# init: colour_str
-# colour_str used to determines colour and for booleans
+        print(self.rect.right)
 
-# update_colour(self, colour_str): updates colour
+    def draw(self, screen):
+        screen.blit(self.img, self.rect)
 
-# the draw function will contain if to adjust colour based on string
+    def update_movement(self, grid):
+        pressed_keys = pygame.key.get_pressed()
+
+        # Ensures with the movement, directional side does not pass the corresponding side on grid
+        if pressed_keys[pygame.K_a] and grid.rect.collidepoint(self.rect.left, 1):
+            self.rect.x -= 1
+        if pressed_keys[pygame.K_d] and grid.rect.collidepoint(self.rect.right, 1):
+            self.rect.x += 1
+        if pressed_keys[pygame.K_w] and grid.rect.collidepoint(1, self.rect.top):
+            self.rect.y -= 1
+        if pressed_keys[pygame.K_s] and grid.rect.collidepoint(1, self.rect.bottom):
+            self.rect.y += 1
