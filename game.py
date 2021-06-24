@@ -18,15 +18,18 @@ class square_tile(pygame.sprite.Sprite):
     def end_round_delete(self, colour):
         # If not right colour, deleted turning black
         if not self.colour == colour:
-            self.colour == (0, 0, 0)
+            self.colour = (0, 0, 0)
 
     def draw(self, screen):
+        # Rectangle
         pygame.draw.rect(screen, self.colour, self.rect)
+        # Border line
+        pygame.draw.rect(screen, (0, 0, 0), self.rect, 2)
 
     # Goes after end_round_delete so colour is either one to stand on or black
     def check_inside(self, player):
         # Checks whether the player object touches the tile, then it's safe
-        if self.rect.contains(player.rect) and not self.colour == (0, 0, 0):
+        if self.rect.colliderect(player.rect) and not self.colour == (0, 0, 0):
             return True
         else:
             return False
@@ -49,8 +52,6 @@ class player_object(pygame.sprite.Sprite):
         self.is_moving_up = False
         self.is_moving_down = False
 
-        print(self.rect.right)
-
     def draw(self, screen):
         screen.blit(self.img, self.rect)
 
@@ -59,10 +60,10 @@ class player_object(pygame.sprite.Sprite):
 
         # Ensures with the movement, directional side does not pass the corresponding side on grid
         if pressed_keys[pygame.K_a] and grid.rect.collidepoint(self.rect.left, 1):
-            self.rect.x -= 1
+            self.rect.x -= 2
         if pressed_keys[pygame.K_d] and grid.rect.collidepoint(self.rect.right, 1):
-            self.rect.x += 1
+            self.rect.x += 2
         if pressed_keys[pygame.K_w] and grid.rect.collidepoint(1, self.rect.top):
-            self.rect.y -= 1
+            self.rect.y -= 2
         if pressed_keys[pygame.K_s] and grid.rect.collidepoint(1, self.rect.bottom):
-            self.rect.y += 1
+            self.rect.y += 2
